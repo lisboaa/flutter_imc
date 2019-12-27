@@ -23,10 +23,15 @@ class _HomeState extends State<Home> {
     _infoText = "Informe seus dados";
   }
 
-  void calculate() {
-    double weight = double.parse(weightController.text);
-    double height = double.parse(heightController.text);
-    double imc = weight / (height * height);
+  void _calculate() {
+    setState(() {
+      double weight = double.parse(weightController.text);
+      double height = double.parse(heightController.text) / 100;
+      double imc = weight / (height * height);
+      if (imc < 18.6) {
+        _infoText = "Abaixo do Peso(${imc})";
+      }
+    });
   }
 
   @override
@@ -75,7 +80,7 @@ class _HomeState extends State<Home> {
                 height: 50.0,
                 margin: const EdgeInsets.only(top: 60.0),
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: _calculate,
                   child: Text(
                     "Calcular",
                     style: TextStyle(color: Colors.white, fontSize: 25.0),
